@@ -103,9 +103,9 @@
 
 			return mapItems
 		})
-function formatLink(link) {
+function shortenURL(link) {
 		console.log(link)
-		if (link === undefined){
+		if (!link){
 			return link = 'No Link to story'
 		} else {
 			return link.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
@@ -118,7 +118,7 @@ function formatLink(link) {
 				author: story.by,
 				title: story.title,
 				fullurl: story.url,
-				url:  formatLink(story.url),
+				url:  shortenURL(story.url),
 				date: moment.unix(story.time),
 				score: story.score,
 				comments: story.descendants
