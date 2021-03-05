@@ -28,6 +28,11 @@
 	}
 </style>
 	<script>
+		import moment from 'moment'
+
+
+
+
 		let getThirtyArticles = []
 	async function getListOfStoryID() {
 		const res = await fetch(`https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty`);
@@ -71,23 +76,22 @@
 				// console.log(data)
 				return data
 			})
-			// console.log(mapItems)
+			console.log(mapItems)
 
 			return mapItems
 		})
+
 	getMoreStories.then(story =>{
 		Promise.all(story).then(story => {
 			const testChange = [...story]
 			let result = testChange.map(story =>({
 				author: story.by,
 				title: story.title,
-				url:  new URL(`${story.url}`)
-
+				url:  new URL(`${story.url}`),
+				date: moment.unix(story.time)
 			}))
 			console.log(result)
 			allStories = result
-
-
 		})
 	})
 
@@ -96,9 +100,12 @@
 <main>
 
 	{#each allStories as story, i}
-		<p>{i + 1}. <span class="title"> {story.author} </span> <span><a class = 'url'href="{story.url}">
-			{story.url.origin}
-			</a> </span> </p>
+		<p>{i + 1}. <span class="title"> {story.author} </span>
+			<span><a class = 'url'href="{story.url}">{story.url.host}</a> </span>
+			</p>
+			<br>
+			{moment(story.date).fromNow()}
+
 	{/each}
 
 
