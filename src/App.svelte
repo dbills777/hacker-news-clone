@@ -1,5 +1,6 @@
 <style>
 	main {
+	
 		padding: 1em;
 		max-width: 240px;
 		margin: 0 auto;
@@ -21,10 +22,7 @@
 		margin-right: 5rem;
 		font-weight: 200;
 	}
-	.login{
-		margin-left: 60rem;
-		margin-top: 0;
-	}
+
 	p {
 		color: #000000;
 		font-size:15px;
