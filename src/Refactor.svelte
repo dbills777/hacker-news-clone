@@ -2,63 +2,34 @@
 	<script>
 		import moment from 'moment'
 
-		let getThirtyArticles = []
-	async function getListOfStoryID() {
-		const res = await fetch(`https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty`);
-		const text = await res.json();
-		if (res.ok) {
-			getThirtyArticles = text
-			getThirtyArticles.length = 30
-			console.log(getThirtyArticles)
-			return getThirtyArticles;
-		} else {
-			throw new Error(text);
-		}
-	}
-	let arraOfThirty = getListOfStoryID();
-
-		let StoryArray = []
-	async function getSingleStory(storyID) {
-		const res = await fetch(`https://hacker-news.firebaseio.com/v0/item/${storyID}.json?print=pretty`);
-		const text = await res.json();
-		StoryArray.push(text)
-
-		if (res.ok) {
-			StoryArray = text
-			StoryArray.length = 30
-			return StoryArray;
-		} else {
-			throw new Error(text);
-		}
-	}
-	let fetchlist = getListOfStoryID()
-	let SingleStory = getSingleStory('26343577');
-
-
-
-	let allStories= []
-	let getMoreStories = fetchlist.then(item=>{
-			const mapItems = item.map(async item=>{
-				// console.log(item)
-				const response = await fetch(`https://hacker-news.firebaseio.com/v0/item/${item}.json?print=pretty`)
+        function shortenURL(link) {
+            console.log(link)
+            if (!link){
+                return link = 'No Link to story'
+            } else {
+                return link.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
+            }
+        }
+let allStories = []
+async function getTopArticlesID(){
+    const response = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
+    const data = await response.json()
+    data.length = 30
+    console.log(data)
+    return data;
+}
+function getIndividualArticle(articleIDs){
+     const mapItems = articleIDs.map(async article=>{
+				const response = await fetch(`https://hacker-news.firebaseio.com/v0/item/${article}.json?print=pretty`)
 				const data = await response.json()
-				// console.log(data)
 				return data
 			})
-			console.log(mapItems)
-
-			return mapItems
-		})
-function shortenURL(link) {
-		console.log(link)
-		if (!link){
-			return link = 'No Link to story'
-		} else {
-			return link.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
-		}
-	}
-	getMoreStories.then(story =>{
-		Promise.all(story).then(story => {
+            return mapItems
+}
+getTopArticlesID()
+.then(responses => getIndividualArticle(responses))
+.then(finalResult => {
+  Promise.all(finalResult).then(story => {
 			const testChange = [...story]
 			let result = testChange.map(story =>({
 				author: story.by,
@@ -69,13 +40,10 @@ function shortenURL(link) {
 				score: story.score,
 				comments: story.descendants
 			}))
-			console.log(result)
 			allStories = result
 		})
-	})
-
+})
 </script>
-
 <main>
 	<header> <h3>Hacker News <span> new | past | comments | ask | show | jobs | submit </span> </h3>  </header>
 	{#each allStories as story, i}
@@ -87,6 +55,7 @@ function shortenURL(link) {
 		</div>
 	{/each}
 </main>
+
 
 
 
