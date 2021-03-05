@@ -6,11 +6,31 @@
 		background-color: #F6F6EF;
 		font-size: 13.33px;
 	}
-
+	header{
+		background-color: #F66604;
+	}
+	header h3{
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		margin-left:5rem;
+		margin-right: 5rem;
+	}
+	header h3 span {
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		margin-right: 5rem;
+		font-weight: 200;
+	}
+	.login{
+		margin-left: 60rem;
+		margin-top: 0;
+	}
 	p {
 		color: #000000;
 		font-size:15px;
 		font-weight: 100;
+		padding: 0;
+		margin: 0;
 	}
 	.title {
 		font-weight: 400;
@@ -19,6 +39,14 @@
 		font-weight: 100;
 		color: #828282;
 		font-size: .75rem
+	}
+	.nopadding{
+		padding: 0;
+		margin: 0;
+	}
+	.story{
+		margin-left:5rem;
+		margin-right: 5rem;
 	}
 
 	@media (min-width: 640px) {
@@ -29,9 +57,6 @@
 </style>
 	<script>
 		import moment from 'moment'
-
-
-
 
 		let getThirtyArticles = []
 	async function getListOfStoryID() {
@@ -87,8 +112,11 @@
 			let result = testChange.map(story =>({
 				author: story.by,
 				title: story.title,
-				url:  new URL(`${story.url}`),
-				date: moment.unix(story.time)
+				url:  story.url,
+				// newurl: new URL(`${story.url}`),
+				date: moment.unix(story.time),
+				score: story.score,
+				comments: story.descendants
 			}))
 			console.log(result)
 			allStories = result
@@ -98,13 +126,17 @@
 </script>
 
 <main>
-
+	<header> <h3>Hacker News <span> new | past | comments | ask | show | jobs | submit </span> </h3>  </header>
 	{#each allStories as story, i}
-		<p>{i + 1}. <span class="title"> {story.author} </span>
-			<span><a class = 'url'href="{story.url}">{story.url.host}</a> </span>
+		<div class="story">
+			<p>{i + 1}. <span class="title"> {story.title} </span>
+			<span><a class ='url' href="{story.url}">({story.url})</a> </span>
 			</p>
+		<p class="nopadding url">  {story.score} points {moment(story.date).fromNow()} | hide | {story.comments} comments </p>
+		</div>
+
 			<br>
-			{moment(story.date).fromNow()}
+
 
 	{/each}
 
