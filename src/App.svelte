@@ -1,6 +1,6 @@
 <style>
 	main {
-	
+
 		padding: 1em;
 		max-width: 240px;
 		margin: 0 auto;
@@ -103,15 +103,22 @@
 
 			return mapItems
 		})
-
+function formatLink(link) {
+		console.log(link)
+		if (link === undefined){
+			return link = 'No Link to story'
+		} else {
+			return link.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
+		}
+	}
 	getMoreStories.then(story =>{
 		Promise.all(story).then(story => {
 			const testChange = [...story]
 			let result = testChange.map(story =>({
 				author: story.by,
 				title: story.title,
-				url:  story.url,
-				// newurl: new URL(`${story.url}`),
+				fullurl: story.url,
+				url:  formatLink(story.url),
 				date: moment.unix(story.time),
 				score: story.score,
 				comments: story.descendants
@@ -128,7 +135,7 @@
 	{#each allStories as story, i}
 		<div class="story">
 			<p>{i + 1}. <span class="title"> {story.title} </span>
-			<span><a class ='url' href="{story.url}">({story.url})</a> </span>
+			<span><a class ='url' href="{story.fullurl}" target="blank">({story.url})</a> </span>
 			</p>
 		<p class="nopadding url">  {story.score} points {moment(story.date).fromNow()} | hide | {story.comments} comments </p>
 		</div>
