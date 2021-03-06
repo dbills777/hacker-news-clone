@@ -1,7 +1,6 @@
 import App from './App.svelte';
-import Refactor from './Refactor.svelte'
 
-const app = new Refactor({
+const app = new App({
 	target: document.body,
 
 });
