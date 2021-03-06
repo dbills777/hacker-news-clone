@@ -29,9 +29,8 @@ function getIndividualArticle(articleIDs){
 getTopArticlesID()
 .then(responses => getIndividualArticle(responses))
 .then(finalResult => {
-  Promise.all(finalResult).then(story => {
-			const testChange = [...story]
-			let result = testChange.map(story =>({
+  Promise.all(finalResult).then(articles => {
+			let result = articles.map(story =>({
 				author: story.by,
 				title: story.title,
 				fullurl: story.url,
