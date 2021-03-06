@@ -1,14 +1,14 @@
 
 	<script>
 		import moment from 'moment'
-
-function shortenURL(link) {
-    if (!link){
-        return link = 'No Link to story'
-    } else{
-        return link.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
-        }
-    }
+// use if URL fails--previously it failed
+// function shortenURL(link) {
+//     if (!link){
+//         return link = 'No Link to story'
+//     } else{
+//         return link.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
+//         }
+//     }
 let allStories = []
 async function getTopArticlesID(){
     const response = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
@@ -32,8 +32,9 @@ getTopArticlesID()
 				author: story.by,
 				title: story.title,
 				fullurl: story.url,
-				url:  shortenURL(story.url),
+				// url:  shortenURL(story.url),
 				date: moment.unix(story.time),
+				urlParser: new URL(story.url),
 				score: story.score,
 				comments: story.descendants
 			}))
@@ -42,11 +43,11 @@ getTopArticlesID()
 })
 </script>
 <main>
-	<header> <h3>Hacker News <span> new | past | comments | ask | show | jobs | submit </span> </h3>  </header>
+	<header> <h3>Hacker News <span>   new | past | comments | ask | show | jobs | submit </span> </h3>  </header>
 	{#each allStories as story, i}
 		<div class="story">
-			<p>{i + 1}. <span class="title"> {story.title} </span>
-			<span><a class ='url' href="{story.fullurl}" target="blank">({story.url})</a> </span>
+			<p>{i + 1}. <span class="title"> <a class="title" href="'{story.fullurl}">{story.title}</a></span>
+			<span><a class ='url' href="{story.fullurl}" target="blank">({story.urlParser.hostname})</a> </span>
 			</p>
 		<p class="nopadding url">  {story.score} points {moment(story.date).fromNow()} | hide | {story.comments} comments </p>
 		</div>
@@ -90,21 +91,26 @@ getTopArticlesID()
 	}
 	.title {
 		font-weight: 400;
+
+	}
+	.title a{
+		text-decoration: none;
+		color: black;
 	}
 	.url{
-		font-weight: 100;
+		font-weight: 300;
 		color: #828282;
 		font-size: .75rem
 	}
 	.nopadding{
 		padding: 0;
 		margin: 0;
+		margin-left: 16px;
 	}
 	.story{
 		margin-left:5rem;
 		margin-right: 5rem;
 		margin-bottom: 1rem;
-		box-shadow: 0 2px 2px -2px gray;
 	}
 
 	@media (min-width: 640px) {
