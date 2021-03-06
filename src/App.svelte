@@ -35,7 +35,7 @@ getTopArticlesID()
 				fullurl: story.url,
 				url:  shortenURL(story.url),
 				date: moment.unix(story.time),
-				urlParser: new URL(story.url),
+				// urlParser: new URL(story.url),
 				score: story.score,
 				comments: story.descendants
 			}))
@@ -48,7 +48,7 @@ getTopArticlesID()
 	{#each allStories as story, i}
 		<div class="story">
 			<p>{i + 1}. <span class="title"> <a class="title" href="{story.fullurl}">{story.title}</a></span>
-			<span><a class ='url' href="{story.fullurl}" target="blank">({story.urlParser.hostname})</a> </span>
+			<span><a class ='url' href="{story.fullurl}" target="blank">({story.url})</a> </span>
 			</p>
 		<p class="nopadding url">  {story.score} points {moment(story.date).fromNow()} | hide | {story.comments} comments </p>
 		</div>
