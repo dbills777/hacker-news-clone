@@ -2,29 +2,27 @@
 	<script>
 		import moment from 'moment'
 
-        function shortenURL(link) {
-            console.log(link)
-            if (!link){
-                return link = 'No Link to story'
-            } else {
-                return link.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
-            }
+function shortenURL(link) {
+    if (!link){
+        return link = 'No Link to story'
+    } else{
+        return link.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
         }
+    }
 let allStories = []
 async function getTopArticlesID(){
     const response = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
     const data = await response.json()
     data.length = 30
-    console.log(data)
     return data;
 }
 function getIndividualArticle(articleIDs){
-     const mapItems = articleIDs.map(async article=>{
-				const response = await fetch(`https://hacker-news.firebaseio.com/v0/item/${article}.json?print=pretty`)
-				const data = await response.json()
-				return data
-			})
-            return mapItems
+    const mapItems = articleIDs.map(async article=>{
+		const response = await fetch(`https://hacker-news.firebaseio.com/v0/item/${article}.json?print=pretty`)
+		const data = await response.json()
+		return data
+	})
+        return mapItems
 }
 getTopArticlesID()
 .then(responses => getIndividualArticle(responses))
