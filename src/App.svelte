@@ -1,15 +1,15 @@
 
 	<script>
 		import moment from 'moment'
-		
+
 // use if URL fails--previously it failed
-// function shortenURL(link) {
-//     if (!link){
-//         return link = 'No Link to story'
-//     } else{
-//         return link.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
-//         }
-//     }
+function shortenURL(link) {
+    if (!link){
+        return link = 'No Link to story'
+    } else{
+        return link.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
+        }
+    }
 let allStories = []
 async function getTopArticlesID(){
     const response = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
@@ -33,7 +33,7 @@ getTopArticlesID()
 				author: story.by,
 				title: story.title,
 				fullurl: story.url,
-				// url:  shortenURL(story.url),
+				url:  shortenURL(story.url),
 				date: moment.unix(story.time),
 				urlParser: new URL(story.url),
 				score: story.score,
