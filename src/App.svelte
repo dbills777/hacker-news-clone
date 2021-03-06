@@ -47,7 +47,7 @@ getTopArticlesID()
 	<header> <h3>Hacker News <span>   new | past | comments | ask | show | jobs | submit </span> </h3>  </header>
 	{#each allStories as story, i}
 		<div class="story">
-			<p>{i + 1}. <span class="title"> <a class="title" href="'{story.fullurl}">{story.title}</a></span>
+			<p>{i + 1}. <span class="title"> <a class="title" href="{story.fullurl}">{story.title}</a></span>
 			<span><a class ='url' href="{story.fullurl}" target="blank">({story.urlParser.hostname})</a> </span>
 			</p>
 		<p class="nopadding url">  {story.score} points {moment(story.date).fromNow()} | hide | {story.comments} comments </p>
