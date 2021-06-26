@@ -1,6 +1,6 @@
 
 	<script>
-		import moment from 'moment'
+import moment from 'moment'
 
 // use if URL fails--previously it failed
 function shortenURL(link) {
