@@ -2,6 +2,7 @@
 	<script>
 import moment from 'moment'
 
+
 // use if URL fails--previously it failed
 function shortenURL(link) {
     if (!link){
@@ -17,6 +18,8 @@ async function getTopArticlesID(){
     data.length = 30
     return data;
 }
+console.log(getTopArticlesID())
+
 function getIndividualArticle(articleIDs){
     const mapItems = articleIDs.map(async article=>{
 		const response = await fetch(`https://hacker-news.firebaseio.com/v0/item/${article}.json?print=pretty`)
@@ -45,6 +48,7 @@ getTopArticlesID()
 </script>
 <main>
 	<header> <h3>Hacker News <span>   new | past | comments | ask | show | jobs | submit </span> </h3>  </header>
+
 	{#each allStories as story, i}
 		<div class="story">
 			<p>{i + 1}. <span class="title"> <a class="title" href="{story.fullurl}">{story.title}</a></span>
