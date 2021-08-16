@@ -12,7 +12,7 @@ frontend. That's why I decided to use an existing API rather to create a custom 
 basic backend knowledge as well.
 - Testing is an essential part of production applications. Testing Library is the go-to library in the
 React community. I covered the essential features of the app with tests.
-## If I had more time I would change this
+## Points to Improve
 - In the future I would like to recreate this application with an isolated component approach.
 - Refactor the different methods of fetching data into one consistant form.  ie arrow functions with async and await.
 
